@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="pics/pawprint.png">
+    <title>Client Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/profile-client.css">
+    <script src="js/profile-client.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        function img_pPic(input) {
+            document.getElementById("ppicPrev").src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
+        }
+        function img_idPic(input) {
+            document.getElementById("idpicPrev").src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
+        }
+
+        $(document).ready(function () {
+            $("#search-btn").click(function () {
+
+                var custEmail = $("#clientEmail").val();
+                //creating object for ajax query
+                var infoObj = {
+                    type: "get",
+                    url: "/fetchFromTable",
+                    data: {
+                        emailforServer: custEmail
+                    }
+                }
+                //passing infoObj to ajax request
+                $.ajax(infoObj).done(function (jsonArray) {
+
+                    //alert(JSON.stringify(JSON.stringify(jsonArray) + " Length " + jsonArray.length));
+
+                    $("#clientName").val(jsonArray[0].name);
+                    $("#clientContact").val(jsonArray[0].mobile);
+                    $("#clientAddress").val(jsonArray[0].address);
+                    $("#clientCity").val(jsonArray[0].city);
+                    $("#clientState").val(jsonArray[0].state);
+                    $("#clientPin").val(jsonArray[0].pin);
+                    $("#clientPets").val(jsonArray[0].pets);
+                    $("#hdn1").val(jsonArray[0].profilepic);
+                    $("#hdn2").val(jsonArray[0].idproofpic);
+
+                    $("#ppicPrev").prop("src", "uploads/" + jsonArray[0].profilepic);
+                    $("#idpicPrev").prop("src", "uploads/" + jsonArray[0].idproofpic);
+
+                }).fail(function (err) {
+                    alert(err);
+                });
+
+            });
+        })
+    </script>
+    <script>
+        function fetchActiveUser() {
+            if (localStorage.getItem("activeUser") == null) {
+                location.href = "index.html";
+                return;
+            }
+            var active = localStorage.getItem("activeUser");
+            //alert(active);
+            document.getElementById("welcome").innerHTML = "Welcome:" + active;
+            document.getElementById("clientEmail").value=active
+        }
+
+        function doshow() {
+
+            localStorage.removeItem("activeUser");
+            location.href = "index.html";
+        }
+    </script>
+
+
+</head>
+
+<body onload="fetchActiveUser();">
+
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="pics/pawprint.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                <span id="title-text">Pet Sitter</span>
+            </a>
+            <span id="welcome" style="float:right;">*</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item  ps-4">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item  ps-4">
+                        <a class="nav-link" onclick="doshow();">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt-5 pb-5">
+        <form class="row g-3" enctype="multipart/form-data" method="post">
+            <div class="col-md-12 d-flex justify-content-center pb-3" id="title-txt"><span>
+                    Client Profile
+                </span></div>
+            <input type="hidden" name="hdn1" id="hdn1">
+            <input type="hidden" name="hdn2" id="hdn2">
+            <div class="col-md-6 ">
+                <label for="clientEmail" class="form-label">Email</label>
+                <div class="d-flex">
+                    <input type="email" class="form-control me-3" id="clientEmail" name="clientEmail" readonly>
+                    <button type="button" class="btn btn-outline-success" id="search-btn">Search</button>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <label for="clientName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="clientName" name="clientName">
+            </div>
+            <div class="col-md-6">
+                <label for="clientContact" class="form-label">Contact</label>
+                <input type="text" class="form-control" id="clientContact" name="clientContact">
+            </div>
+            <div class="col-md-12">
+                <label for="clientAddress" class="form-label">Address</label>
+                <input type="text" class="form-control" id="clientAddress" name="clientAddress">
+            </div>
+
+            <div class="col-md-6">
+                <label for="clientCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="clientCity" name="clientCity">
+            </div>
+            <div class="col-md-4">
+                <label for="clientState" class="form-label">State</label>
+                <select id="clientState" name="clientState" class="form-select">
+                    <option selected>Choose...</option>
+                    <option value=”Andaman and Nicobar Islands”>Andaman and Nicobar Islands</option>
+                    <option value=”Andhra Pradesh”>Andhra Pradesh</option>
+                    <option value=”Arunachal Pradesh”>Arunachal Pradesh</option>
+                    <option value=”Assam”>Assam</option>
+                    <option value=”Bihar”>Bihar</option>
+                    <option value=”Chandigarh”>Chandigarh</option>
+                    <option value=”Chhattisgarh”>Chhattisgarh</option>
+                    <option value=”Dadra and Nagar Haveli”>Dadra and Nagar Haveli</option>
+                    <option value=”Daman and Diu”>Daman and Diu</option>
+                    <option value=”Delhi”>Delhi</option>
+                    <option value=”Goa”>Goa</option>
+                    <option value=”Gujarat”>Gujarat</option>
+                    <option value=”Haryana”>Haryana</option>
+                    <option value=”Himachal Pradesh”>Himachal Pradesh</option>
+                    <option value=”Jammu and Kashmir”>Jammu and Kashmir</option>
+                    <option value=”Jharkhand”>Jharkhand</option>
+                    <option value=”Karnataka”>Karnataka</option>
+                    <option value=”Kerala”>Kerala</option>
+                    <option value=”Lakshadweep”>Lakshadweep</option>
+                    <option value=”Madhya Pradesh”>Madhya Pradesh</option>
+                    <option value=”Maharashtra”>Maharashtra</option>
+                    <option value=”Manipur”>Manipur</option>
+                    <option value=”Meghalaya”>Meghalaya</option>
+                    <option value=”Mizoram”>Mizoram</option>
+                    <option value=”Nagaland”>Nagaland</option>
+                    <option value=”Orissa”>Orissa</option>
+                    <option value=”Pondicherry”>Pondicherry</option>
+                    <option value=”Punjab”>Punjab</option>
+                    <option value=”Rajasthan”>Rajasthan</option>
+                    <option value=”Sikkim”>Sikkim</option>
+                    <option value=”Tamil Nadu”>Tamil Nadu</option>
+                    <option value=”Tripura”>Tripura</option>
+                    <option value=”Uttaranchal”>Uttaranchal</option>
+                    <option value=”Uttar Pradesh”>Uttar Pradesh</option>
+                    <option value=”West Bengal”>West Bengal</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="clientPin" class="form-label">Pin</label>
+                <input type="text" class="form-control" id="clientPin" name="clientPin">
+            </div>
+
+            <div class="col-md-6">
+                <label for="ppic" class="form-label">Profile Pic</label>
+                <input type="file" onchange="img_pPic(this);" class="form-control" id="ppic" name="ppic"
+                    accept="image/gif, image/jpeg, image/png">
+            </div>
+            <div class="col-md-6">
+                <label for="idpic" class="form-label"> Id Proof Pic</label>
+                <input type="file" onchange="img_idPic(this);" class="form-control" id="idpic" name="idpic"
+                    accept="image/gif, image/jpeg, image/png">
+            </div>
+            <div id="preview-div">
+                <div class="col-md-3">
+                    <!-- <label for="inputppicPrev" class="form-label"></label> -->
+                    <img src="https://via.placeholder.com/234x100?text=Profile+ Pic +Preview" alt="" id="ppicPrev"
+                        width="100" class="form-control " height="100" title=" Profile Pic Preview">
+                </div>
+                <div class="col-md-3">
+                    <!-- <label for="inputidpicPrev" class="form-label"></label> -->
+                    <img src="https://via.placeholder.com/234x100?text=Id +Preview" alt="" id="idpicPrev" width="100"
+                        class="form-control" height="100" title="Id Preview">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="clientPets" class="form-label">Pets</label>
+                <input type="text" class="form-control" id="clientPets" name="clientPets">
+            </div>
+
+            <div class="col-md-12">
+                <div id="btn-div">
+                    <center>
+                        <button type="submit" class="btn btn-outline-success me-md-2" id="btn-Update"
+                            formaction="/client-update-form-post">Update</button>
+                        <button type="submit" class="btn btn-outline-success" id="btn-Save"
+                            formaction="/client-profile-form-post">Save</button>
+                    </center>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

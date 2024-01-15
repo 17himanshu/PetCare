@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="pics/pawprint.png">
+    <title>User Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/user-manager.css">
+    <script src="js/user-manager"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script>
+        var module = angular.module("myModule", []);
+        module.controller("myController", function ($scope, $http) {
+            $scope.jsonUsersAry;
+
+            $scope.fetchAndShow = function () {
+                $http.get("/fetch-all-users-angular").then(fxOk, fxNotOk);
+
+                function fxOk(response) {
+                    $scope.jsonUsersAry = response.data;
+                }
+                function fxNotOk(response) {
+                    alert(response.data);
+                }
+            }
+
+            $scope.blockUser = function (emailid) {
+                $http.get("/block-user-angular?xEmail=" + emailid).then(fxOk, fxNotOk);
+
+                function fxOk(response) {
+                    alert(response.data);
+                }
+
+                function fxNotOk(response) {
+                    alert(response.data);
+                }
+            }
+
+            $scope.resumeUser = function (emailid) {
+                $http.get("/resume-user-angular?xEmail=" + emailid).then(fxOk, fxNotOk);
+
+                function fxOk(response) {
+                    alert(response.data);
+                }
+
+                function fxNotOk(response) {
+                    alert(response.data);
+                }
+            }
+        })
+    </script>
+</head>
+
+<body ng-app="myModule" ng-controller="myController">
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="pics/pawprint.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                <span id="title-text">Pet Sitter</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item  ps-4">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item  ps-4">
+                        <a class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="main-div">
+        <div class="container pt-5 pb-5">
+            <div class="row g-3">
+                <div class="col-md-12 d-flex justify-content-center pb-3" id="title-txt"><span>
+                        User Manager
+                    </span></div>
+                <div class="col-md-12">
+                    <center>
+                        <a href="#" class="btn btn-outline-success" ng-click="fetchAndShow();">Load All Users</a>
+                    </center>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Email Id</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">User Type</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="obj in jsonUsersAry">
+                                <th scope="row">{{$index}}</th>
+                                <td>{{obj.emailid}}</td>
+                                <td>{{obj.pwd}}</td>
+                                <td>{{obj.utype}}</td>
+                                <td> <button type="button" class="btn btn-outline-danger" id="block-btn"
+                                        ng-click="blockUser(obj.emailid);">Block</button></td>
+                                <td> <button type="button" class="btn btn-outline-success" id="resume-btn"
+                                        ng-click="resumeUser(obj.emailid);">Resume</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

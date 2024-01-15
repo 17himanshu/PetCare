@@ -1,0 +1,163 @@
+*{
+    font-family: 'Baloo Bhai 2', cursive;
+}
+#title-text {
+    font-size: 30px;
+    color: #00bd56;
+    /* color: black; */
+    font-weight: bold;
+}
+
+#title-logo-div {
+    display: flex;
+    justify-content: space-evenly
+
+}
+
+#title-btn-div {
+display: flex;
+justify-content: space-evenly
+}
+
+#user-signup{
+    width: 80px; height: 80px;
+    margin: auto; background-image: url(../pics/loginpic.png);
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 2px gray solid; border-radius: 50%; margin-top:10px;
+}
+#user-login{
+    width: 80px; height: 80px;
+    background-position: center;
+    background-size: 80%;
+    margin: auto; background-image: url(../pics/userlogin.png);
+    background-repeat: no-repeat;
+    border: 2px gray solid; border-radius: 50%; margin-top:10px;
+}
+
+#res{
+    color: green;
+}
+
+#title-img-div{
+    width:100vw;
+    height:100%;
+    background-size:101%;
+    background-image: url(../pics/manypetsbanner.jpg);
+    background-repeat:no-repeat ;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 15px;
+}
+
+.masthead {
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.5);
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+.color-overlay {
+    position: absolute;
+    background-color: rgba(0,0,0,0.3);
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .masthead {
+        min-height: 30vh;font-size: 25px;
+    }
+    h1 {
+        font-size: calc(1.525rem + 3.3vw);
+    }
+}
+.navbar{
+    background-color: #ffffff;
+}
+.navbar ul li a{
+    color: black;
+    font-size: 17px;
+}
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    position: relative;
+}
+.navbar ul li::after{
+    content: '';
+    height:3px;
+    width: 0;
+    background: #00bd56;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    transition: 0.5s;
+}
+.navbar ul li:hover::after{
+    width:100%;
+    /* color: white; */
+}
+.nav-link:hover{
+    color: #00bd56;
+    cursor: pointer;
+    /* scale: 1.2; */
+}
+.navbar-toggler .navbar-toggler-icon {
+    display: block;
+    width: 15px;
+    height: 20px;
+    border-radius: 2px;
+}
+.services{
+    background:#f8f9fd
+}
+
+.cta-btn{
+    background-color: #00bd56;
+    color:white;
+    border: 0;
+}
+.services .card span{
+    color: #00bd56;
+}
+.services .card{
+    border: 1px solid #00bd56;
+    cursor:pointer;
+}
+.services .card:hover{
+    box-shadow: 0px 0px 15px #00bd56;
+    /* border:1px solid #00bd56; */
+}
+.services img{
+    aspect-ratio: 16/9;
+}
+footer{
+    background: #f8f9fd;
+}
+
+#contact-txt{
+    color: #00bd56;;
+}
+.fab{
+    color: rgb(69, 67, 67);
+}
+.fab:hover{
+    scale: 1.1;
+}
+#footer-txt{
+    color: #00bd56;
+}
+.team .card{
+     box-shadow:2px 2px 5px #00bd56 ;
+}
+.team .card:hover{
+    box-shadow: none;
+}
