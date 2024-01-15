@@ -1,11 +1,11 @@
 var express = require("express");
 var mysql = require("mysql");
 const fileUpload = require("express-fileupload");
-
+const PORT = process.env.PORT || 3030;
 const app = express();
 
-app.listen(8002, function () {
-    console.log("Server Started..");
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
 });
 
 var dbConfigurationObj = {
