@@ -90,10 +90,9 @@
                                 localStorage.setItem("activeUser", x);
                             }
                             else
-                                addAlert("Invalid Password");
+                                addAlert("Invalid Username or Password");
                         }
-                        else
-                            addAlert("Invalid Username");
+                        addAlert("Invalid Username or Password");
                     }).fail(function (err) {
                         // $("#res-login-btn").html("Invalid email or password");
                         alert(err);
