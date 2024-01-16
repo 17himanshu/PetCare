@@ -82,16 +82,20 @@
 
                     $.ajax(infoObj).done(function (tableAry) {
                         if (tableAry.length != 0) {
-                            if (y == tableAry[0].pwd) {
-                                if (tableAry[0].utype == "user")
-                                    location.href = "dash-client.html"
-                                else if (tableAry[0].utype == "caretaker")
-                                    location.href = "dash-caretaker.html"
-                                localStorage.setItem("activeUser", x);
+                            if (tableAry[0].status == 1) {
+                                if (y == tableAry[0].pwd) {
+                                    if (tableAry[0].utype == "user")
+                                        location.href = "dash-client.html";
+                                    else if (tableAry[0].utype == "caretaker")
+                                        location.href = "dash-caretaker.html";
+                                    localStorage.setItem("activeUser", x);
+                                } else {
+                                    addAlert("Invalid Password");
+                                }
+                            } else {
+                                addAlert("User Blocked");
                             }
-                            else
-                                addAlert("Invalid Password");
-                        }else{
+                        } else {
                             addAlert("Invalid Username or Password");
                         }
                         
