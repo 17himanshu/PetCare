@@ -1,18 +1,21 @@
 var express = require("express");
 var mysql = require("mysql");
 const fileUpload = require("express-fileupload");
-const PORT = process.env.PORT || 3030;
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
 
+
 var dbConfigurationObj = {
-    host: "sql12.freemysqlhosting.net",
-    user: "sql12676400",
-    password: "lK2V8HLcs5",
-    database: "sql12676400"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD
 }
 
 var dbRef = mysql.createConnection(dbConfigurationObj);
@@ -230,7 +233,19 @@ app.post("/caretaker-profile-form-post", function (req, resp) {
         pic = "nopic.png";
 
 
-    var dataAry = [req.body.caretkrEmail, req.body.caretkrName, req.body.caretkrContact, req.body.caretkrAddress, req.body.caretkrWebsite, req.body.caretkrState, req.body.caretkrCity, req.body.caretkrPin, req.body.selPets, pic];
+    // var dataAry = [req.body.caretkrEmail, req.body.caretkrName, req.body.caretkrContact, req.body.caretkrAddress, req.body.caretkrWebsite, req.body.caretkrState, req.body.caretkrCity, req.body.caretkrPin, req.body.selPets, pic];
+    var dataAry = [
+        req.body.caretkrEmail,
+        req.body.caretkrName || '',
+        req.body.caretkrContact || '',
+        req.body.caretkrAddress || '',
+        req.body.caretkrWebsite || '',
+        req.body.caretkrState || '',
+        req.body.caretkrCity || '',
+        req.body.caretkrPin || '',
+        req.body.selPets || '',
+        pic || 'nopic.png'
+    ];
     // console.log(dataAry);
     dbRef.query("insert into caretakers values(?,?,?,?,?,?,?,?,?,?)", dataAry, function (err) {
         if (err == null) {
